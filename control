@@ -1,0 +1,10 @@
+[Product]
+type: localboot
+id: dropbox
+name: Dropbox
+description: Dropbox ist ein Cloud-Service zur Speicherung von Dateien. Siehe http://www.dropbox.com
+advice:
+version: 1.6.17
+packageVersion: 1.0
+setupScript: install.ins
+uninstallScript: remove.ins

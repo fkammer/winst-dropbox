@@ -1,0 +1,32 @@
+[Initial]
+Message=Deinstalliere Dropbox...
+
+[Aktionen]
+ShowBitmap "%ScriptPath%\logo.png" "Dropbox"
+DosInAnIcon_KillDropbox
+LinkFolder_DeleteLinks
+Files_DeleteDropbox
+Sub_CheckRemove
+
+[DosInAnIcon_KillDropbox]
+; Dropbox needs to be killed to remove %ProgramFilesDir%\Dropbox
+; if dropbox.exe is currently running
+taskkill /im "Dropbox.exe" /f
+
+[LinkFolder_DeleteLinks]
+set_basefolder common_programs
+delete_subfolder "Dropbox"
+
+[Files_DeleteDropbox]
+delete -sf "%ProgramFilesDir%\Dropbox"
+
+[Sub_CheckRemove]
+if FileExists("%ProgramFilesDir%\Dropbox\Dropbox.exe")
+  DosInAnIcon_KillDropbox
+  LinkFolder_DeleteLinks
+  Files_DeleteDropbox
+endif
+if FileExists("%ProgramFilesDir%\Dropbox\Dropbox.exe")
+  LogError "Fatal: Could not remove dropbox.exe"
+  IsFatalError
+endif

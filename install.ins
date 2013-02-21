@@ -1,0 +1,36 @@
+[Initial]
+Message=Installiere Dropbox...
+
+[Aktionen]
+ShowBitmap "%ScriptPath%\logo.png" "Dropbox"
+DosInAnIcon_KillDropbox
+Files_CopyDropbox
+LinkFolder_Dropbox
+Sub_CheckInstall
+
+[DosInAnIcon_KillDropbox]
+; Dropbox needs to be killed to prevent a reboot dialog if dropbox.exe
+; is currently running
+taskkill /im "Dropbox.exe" /f
+
+[Files_CopyDropbox]
+copy -se "%ScriptPath%\data\Dropbox.exe" "%ProgramFilesDir%\Dropbox\"
+
+[LinkFolder_Dropbox]
+set_basefolder common_programs
+
+set_subfolder "Dropbox"
+set_link
+  name: Dropbox
+  target: C:\Programme\Dropbox\Dropbox.exe
+  parameters:
+  working_dir: C:\Programme\Dropbox
+  icon_file:
+  icon_index:
+end_link
+
+[Sub_CheckInstall]
+if not (FileExists("%ProgramFilesDir%\Dropbox\Dropbox.exe"))
+  LogError "Fatal: dropbox.exe wasn't found on the system :/"
+  IsFatalError
+endif
